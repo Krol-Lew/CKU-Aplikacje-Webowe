@@ -1,0 +1,59 @@
+CardCourse:
+
+import{useState}from "react";
+
+//function CardCourse(props){
+//    return(
+//       <div>
+//            <h2> {props.title}</h2>
+//            <p>{props.content}</p>
+//            <h5>Ilość godzin: {props.hours} </h5>
+//            <div>Polubienia: {props.likes}</div>
+//        </div>
+//    )
+//}
+
+function CardCourse({title,content,hours,likes}){
+    
+    const [likeLive, setLikeLive] = useState(likes);
+    const handleLike = () =>{
+        setLikeLive(prev => prev+1);    
+    }
+    
+    return(
+       <div>
+            <h2> {title}</h2>
+            <p>{content}</p>
+            <h5>Ilość godzin: {hours} </h5>
+            <div>Polubienia: {likeLive}</div>
+            <button onClick={handleLike}>Dodaj Polubienie</button>
+        </div>
+    )
+}
+export default CardCourse;
+
+Main:
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import CardCourse from './components/CardCourse'
+
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <CardCourse 
+      title='React od podstaw'
+      content = 'Kurs react.js od podstaw'
+      hours ={50}
+      likes={150}
+    />
+
+    <CardCourse 
+      title='Java od zera'
+      content = 'Kurs Javy dla ziemniaków'
+      hours = {30}
+      likes={92}
+    />
+  </StrictMode>,
+)
+

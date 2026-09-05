@@ -1,0 +1,96 @@
+Produkt:
+
+import './Produkt.css';
+function Produkt(){
+    
+    const products = [
+        {'nazwa':'Kawa', 'opis':'najlepsza kawa Sido', 'cena': 10},
+        {'nazwa':'Herbata', 'opis':'najlepsza herbata ceylon', 'cena': 15},
+        {'nazwa':'Mleko', 'opis':'najlepsza mleko Łaciate', 'cena': 7},
+            ];  
+        
+    return(
+        <>
+            {products.map( (item,index) => (
+                <div className='prod' key={index}>
+                    <h2>{item.nazwa}</h2>
+                    <p>Opis: {item.opis}</p>
+                    <h4>Cena: {item.cena}</h4>
+                </div>
+            )) }
+            
+    </>
+    )
+};
+export default Produkt;
+
+Produkt.css:
+
+#root{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.prod{
+    width: 250px;
+    padding: 25px;
+    margin: 20px 15px;
+    background-color: #292626;
+    color:#ffffff;
+}
+
+Wyniki:
+
+import './Wyniki.css';
+function Wyniki(){
+    const wyniki = [
+        {'mecz':'Lechia - Czarni Słupsk', 'rezultat':'2:3'},
+        {'mecz':'Legia - Lech', 'rezultat':'0:1'},
+        {'mecz':'Inter Krzywe Koło - Ogniwo Sopot', 'rezultat':'2:2'},
+            ];
+        return(
+        <>
+            {wyniki.map( (item,index) => (
+                <div className='wyniki'>
+                    <h2>{item.mecz}</h2>
+                    <p>Wynik: {item.rezultat}</p>                    
+                </div>
+            )) }
+            
+    </>
+    )
+}
+export default Wyniki;
+
+Wyniki.css:
+
+#root{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.wyniki{
+    width: 250px;
+    padding: 25px;
+    margin: 20px 15px;
+    background-color: #1a79b1;
+    color:#2601f5;
+}
+
+Main:
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import Produkt from './Produkt'
+import Wyniki from './Wyniki'
+
+
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <Produkt />
+    <Wyniki />
+  </StrictMode>,
+)
+
+

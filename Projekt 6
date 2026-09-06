@@ -1,5 +1,4 @@
 Panel:
-
 import {useState} from "react";
 
 function Panel(){
@@ -17,6 +16,8 @@ function Panel(){
     }
     const handleLogoutPanel=()=>{
         setIsLogged(false);
+        setLogin("");
+        setPass("");
     }
     if (!isLogged){
     return(
@@ -58,7 +59,6 @@ function Panel(){
 }
 
 export default Panel;
-
 
 
 Main:

@@ -1,0 +1,67 @@
+Counter:
+
+import {useState} from "react";
+
+
+function Counter(props){
+    const [count,setCount] = useState(props.count);
+    function handleChangeNumber(){
+        if(count>0) setCount(prev => prev*-1);
+    }
+    return (
+        <div>
+            <button onClick={()=>setCount(prev=>prev+1)}>+1</button>
+            <button onClick={()=>setCount(prev=>prev+10)}>+10</button>
+            <button onClick={()=>setCount(prev=>prev-1)}>-1</button>
+            <button onClick={()=>setCount(prev=>prev-10)}>-10</button>
+            <button onClick={()=>setCount(prev=>Math.abs(prev))}>dodatnia</button>
+            <button onClick={handleChangeNumber}>ujemna</button>
+            <h2>{count}</h2>
+        </div>
+    )
+}
+export default Counter;
+
+Alert:
+
+function Alert({commit}){
+    //function handleAlertView(arg){
+    //    alert("Komunikat: "+arg)
+    //}
+    const handleAlertView=(arg)=>{
+        alert("Komunikat: "+arg)
+    }
+    return(
+        <>
+            <button onClick={()=>handleAlertView(commit)}>Wyświetl alert</button>
+        </>
+    )
+
+}
+export default Alert;
+
+Form:
+
+import {useState} from "react"
+
+function Form(){
+    const [firstNameState, setFirstNameState]=useState("");
+    const handleSubmitForm = (event)=>{
+        event.preventDefault();
+        console.log(firstNameState)
+    }
+    return(
+        <form onSubmit={handleSubmitForm}>
+            <label htmlFor="firstName">Podaj Imię</label>
+            <input 
+                type="text"
+                name="firstName"
+                id="firstName"
+                value={firstNameState}
+                onChange={(event)=> setFirstNameState(event.target.value)}
+            />
+            <button type="submit">Zgłoś się</button>
+        </form>
+    )
+}
+export default Form;

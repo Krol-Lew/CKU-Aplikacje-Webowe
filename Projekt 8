@@ -1,0 +1,158 @@
+CourseCard
+
+function CourseCard({course}){
+    return (
+        <article>
+            <div>
+                <img src={course.image} alt={course.imageAlt} style={{width:"300px"}}/>
+            </div>
+            <div>
+                <h2>
+                    {course.title}
+                </h2>
+            
+            <p>
+                {course.description}
+            </p>
+            </div>
+            <div>
+                <p>Prowadzący: {course.teacher}</p>
+                <p>Cena: {course.price}</p>
+                <p>Długość kursu: {course.length}</p>
+            </div>
+            <div><button>Zapisz się!</button></div>
+        </article>
+    )
+}
+export default CourseCard;
+
+CourseList:
+
+function CourseList(props){
+    return(
+        <table>
+            <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Tytuł
+                </th>
+                <th>
+                    Cena
+                </th>
+                <th>
+                    Długość kursu
+                </th>
+                <th>
+                    
+                </th>
+                </tr>
+                </thead>
+                <tbody>
+            
+            {props.list.map((item,index)=> (
+                <tr key={index} style={item.isOpen ? {backgroundColor: "green"}: {backgroundColor: "grey"}}>
+                    <td>{item.id}</td>
+                    <td>{item.title}</td>
+                    <td>{item.price}</td>
+                    <td>{item.length}</td>
+
+                </tr>
+
+            ))}
+        </tbody>    
+           
+        </table>
+    )
+}
+export default CourseList;
+
+Footer:
+
+function Footer(){
+    return(
+        <footer>
+            <h4>Autor: AKL</h4>
+        </footer>
+    )
+}
+export default Footer;
+
+Header:
+
+function Header(){
+    return(
+        <header>
+            <h1>Katalog Kursów</h1>
+        </header>
+
+    )
+}
+export default Header;
+
+Main:
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import CourseList from './components/CourseList'
+import CourseCard from './components/CourseCard'
+
+import kursHTML from './assets/foto1.webp'
+import kursCSS from './assets/foto2.jpg'
+import kursReact from './assets/foto3.jpg'
+
+
+const courses =[
+  {
+    id: 1,
+    title: "Kurs HTML",
+    description: "Kurs podstaw HTML",
+    image: kursHTML,
+    imageAlt: "Kurs komputerowy",
+    length: 20,
+    price: "$200",
+    teacher: "Jan Kowalski",
+    isOpen: true
+
+  },
+  {
+    id: 2,
+    title: "Kurs CSS",
+    description: "Kurs podstaw CSS",
+    image: kursCSS,
+    imageAlt: "Kurs komputerowy",
+    length: 60,
+    price: "$400",
+    teacher: "Olaf Nowak",
+    isOpen: true
+
+  },
+  {
+    id: 3,
+    title: "Kurs React",
+    description: "Kurs podstaw React",
+    image: kursReact,
+    imageAlt: "Kurs komputerowy",
+    length: 99,
+    price: "$999",
+    teacher: "Bob Snal",
+    isOpen: false
+
+  },
+]
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+   <Header/>
+   <CourseList list={courses}/>
+   <CourseCard course={courses[0]} />
+   <CourseCard course={courses[1]} />
+   <CourseCard course={courses[2]} />
+
+   <Footer/>
+  </StrictMode>,
+)

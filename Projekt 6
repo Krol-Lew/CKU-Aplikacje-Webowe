@@ -1,0 +1,75 @@
+Panel:
+
+import {useState} from "react";
+
+function Panel(){
+    const [login,setLogin]=useState("");
+    const [pass,setPass]=useState("");
+    const [isLogged, setIsLogged] = useState(false);
+
+    const CORRECT_LOGIN="admin123";
+    const CORRECT_PASSWORD="password";
+    const handleLoginPanel=()=>{
+        const isCorrect=CORRECT_LOGIN === login && CORRECT_PASSWORD ===pass;
+        setIsLogged(isCorrect);
+        //console.log(isCorrect);
+        //console.log(login,pass);
+    }
+    const handleLogoutPanel=()=>{
+        setIsLogged(false);
+    }
+    if (!isLogged){
+    return(
+        <div>
+           
+        <div>
+            <label htmlFor="login">Login:</label>
+            <input
+                id="login"
+                type="text"
+                value={login}
+                onChange={(event)=>setLogin(event.target.value)}
+            />
+            <div>
+                <label>Hasło:</label>
+                <input 
+                    id="pass"
+                    type="password"
+                    value={pass} 
+                    onChange={(event)=>setPass(event.target.value)}
+                    />
+            </div>
+            <div>
+                <button onClick={handleLoginPanel}>Zaloguj się</button>
+            </div>
+        </div>
+        </div>
+    )
+}else {
+    return(
+        <div>
+            Witaj {login} w panelu!
+            <div>
+                <button onClick={handleLogoutPanel}>Wyloguj się</button>
+            </div>
+        </div>
+    )
+}
+}
+
+export default Panel;
+
+
+
+Main:
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import Panel from './Panel'
+
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <Panel />
+  </StrictMode>
+)

@@ -1,0 +1,99 @@
+CardImg:
+
+function CardImg(){
+    return(
+        <>
+        <section>
+            <div>
+                <img  
+                src="computer.jpg" 
+                alt="Kurs 1" 
+                style={{width:'250px'}}
+                />        
+            </div>
+            <div>
+                <h3>Kurs HTML</h3>                
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, nisi.</p>
+            </div>
+            <div>
+                <button>Zapisz się!</button>
+            </div>
+        </section>
+        </>
+    )
+}
+export default CardImg;
+
+CardImgAssets:
+import foto3 from './assets/comp.jpg';
+function CardImgAssets(){
+    return(
+        <>
+        <section>
+            <div>
+                <img  
+                src={foto3} 
+                alt="Kurs CSS" 
+                style={{width:'250px'}}
+                />        
+            </div>
+            <div>
+                <h3>Kurs CSS</h3>                
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, nisi.</p>
+            </div>
+            <div>
+                <button>Zapisz się!</button>
+            </div>
+        </section>
+        </>
+    )
+}
+export default CardImgAssets;
+
+CardImgProps:
+import foto3 from './assets/comp.jpg';
+function CardImgProps(props){
+    return(
+        <>
+        <section>
+            <div>
+                <img  
+                src={props.image} 
+                alt={props.alt} 
+                style={{width: "250px"}}
+                
+                />        
+            </div>
+            <div>
+                <h3>Kurs React</h3>                
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, nisi.</p>
+            </div>
+            <div>
+                <button>Zapisz się!</button>
+            </div>
+        </section>
+        </>
+    )
+}
+export default CardImgProps;
+
+Main:
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import CardImg from './CardImg'
+import CardImgAssets from './CardImgAssets'
+import CardImgProps from'./CardImgProps'
+import foto2 from './assets/comp.jpg'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    < CardImg />
+    <CardImgAssets/>
+    <CardImgProps
+      image={foto2}
+      alt="Kurs React"
+      />
+        </StrictMode>
+)
+

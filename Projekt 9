@@ -1,0 +1,68 @@
+App:
+function Header(){
+  console.log("Renderowanie Header");
+  return<h1>Panel Użytkowanika</h1>
+}
+
+function Counter({count}){
+  console.log("Renderowanie licznika");
+  return <p>Licznik: {count}</p>
+}
+
+function Footer(){
+  console.log("Renderowanie Footer");
+  return<div> Autor: AKL </div>
+}
+
+function App() {
+
+
+  return (
+    <>
+    <Header/>
+    <Counter count={0}/>
+    <Footer/>
+    </>
+  )
+}
+
+export default App;
+
+
+Form:
+import {useState} from "react"
+
+function Form(){
+    const [firstNameState, setFirstNameState]=useState("");
+    const handleSubmitForm = (event)=>{
+        event.preventDefault();
+        console.log(firstNameState)
+    }
+    return(
+        <form onSubmit={handleSubmitForm}>
+            <label htmlFor="firstName">Podaj Imię</label>
+            <input 
+                type="text"
+                name="firstName"
+                id="firstName"
+                value={firstNameState}
+                onChange={(event)=> setFirstNameState(event.target.value)}
+            />
+            <button type="submit">Zgłoś się</button>
+        </form>
+    )
+}
+export default Form;
+
+Main:
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App'
+
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+   <App/>
+  </StrictMode>,
+)

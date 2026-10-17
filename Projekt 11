@@ -1,0 +1,89 @@
+Products:
+
+import {useState} from "react";
+function Products(props){
+    
+    const [product,setProduct]=useState(props.lista);
+    const [newProduct, setNewProduct]=useState("");
+    
+    const handleAddItemList = () => {
+        //console.log("Działa!");
+        if (newProduct.length >3){
+                setProduct(prevState=> [...prevState,{id: prevState.length+1, name:newProduct, is_kupione:false}]);
+                setNewProduct(" ")
+                
+        }
+             
+    }
+    const handleDelProduct = (i) => {
+        setProduct(prevState => 
+            prevState.filter((item,index)=> index !== i)
+        )
+    }
+    const handleChangeProduct=(i)=>{
+        setProduct(prevState => prevState.map( (item,index) => index=== i? {...item,is_kupione: true} : item ))
+
+    }
+    const handleReturnProduct=(i)=>{
+        setProduct(prevState => prevState.map( (item,index) => index=== i? {...item,is_kupione: false} : item ))
+    }
+    
+    return (
+    <div className="container">
+        <ul>
+            {product.map((item,index,array) => (
+                <li key={index}> 
+                <span className={item.is_kupione ? "text-decoration-line-through": ""}> 
+                    {item.name}
+                </span>
+                            
+
+                <button 
+                    className="btn btn-warning btn-xs"
+                    onClick={() =>handleDelProduct(index)}>usuń</button>
+                <button disabled={item.is_kupione} onClick={()=>handleChangeProduct(index)}
+                    >kupione</button>
+                {item.is_kupione && <button 
+                    onClick={()=>handleReturnProduct(index)}
+                    >
+                        Zwróć
+                    </button>}
+                </li>  
+            ))}
+            
+        </ul>
+        <input
+            type="text"
+            value={newProduct}
+            onChange={(event) => setNewProduct(event.target.value)}
+            id="newProduct"
+            
+        />
+        <button onClick={handleAddItemList}>Dodaj element</button>
+    </div>
+    )}
+export default Products;
+
+
+Main:
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import Products from './components/Products'
+import 'bootstrap/dist/css/bootstrap.min.css'
+const dane=[
+        {id:1,name:"wiadro",is_kupione:false},
+        {id:2,name:"szpadel",is_kupione:false},
+        {id:3,name:"wapno",is_kupione:false},
+        {id:4,name:"cement",is_kupione:false}, 
+        ]
+
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <Products lista={dane} />
+    <Products lista={[]} />
+  </StrictMode>,
+)
+
+

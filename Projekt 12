@@ -1,0 +1,192 @@
+Main:
+import { useState } from 'react';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import List from './components/List'
+import Form from './components/Form'
+import Stats from './components/Stats';
+import rowery from './assets/rowery.json'
+
+
+function App(){
+    const[listaRowerow, setListaRowerow] = useState(rowery)
+     
+    const dodajNowyRower=(nowyRower)=>{
+      setListaRowerow(prevState => [...prevState, nowyRower])
+    }
+    return(
+    <>
+      <Form add={dodajNowyRower}/>
+      <List list ={listaRowerow}/>
+      <Stats list={listaRowerow}/>
+    </>
+    )
+}
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+   
+    <App/>
+  </StrictMode>,
+)
+
+List:
+import { useState } from 'react';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import List from './components/List'
+import Form from './components/Form'
+import Stats from './components/Stats';
+import rowery from './assets/rowery.json'
+
+
+function App(){
+    const[listaRowerow, setListaRowerow] = useState(rowery)
+     
+    const dodajNowyRower=(nowyRower)=>{
+      setListaRowerow(prevState => [...prevState, nowyRower])
+    }
+    return(
+    <>
+      <Form add={dodajNowyRower}/>
+      <List list ={listaRowerow}/>
+      <Stats list={listaRowerow}/>
+    </>
+    )
+}
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+   
+    <App/>
+  </StrictMode>,
+)
+
+Stats:
+
+function Stats({list}){
+    return(
+        <>
+            <h1>Statystyki</h1>
+            <p>
+                ilość rowerow: {list.length}
+            </p>
+            <p>
+                Średnia cena:{
+                    list.reduce( (suma,item) => suma+ Number(item.price), 0)/list.length
+                }
+            </p>
+            
+        </>
+    )
+}
+export default Stats;
+
+Form: 
+
+import { useState } from 'react';
+
+function Form({ add }) { // Added 'add' prop since it's called in handleSubmit
+    const [rower, setRower] = useState({
+        name: "", 
+        price: 0, 
+        colour: "", 
+        model: ""
+    });
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(rower);
+        const nowy = {
+            ...rower,
+            id: Date.now(),
+        };
+        add(nowy); // Pass the complete object with id
+    };
+
+    const handleChange = (event) => {
+        setRower(prev => ({
+            ...prev, 
+            [event.target.name]: event.target.value
+        }));
+    };
+
+    return (
+        <div className="container row col-6">
+            <h1>Dodaj rower</h1>
+            <form onSubmit={handleSubmit}>
+                <div className="form-field">
+                    <label htmlFor="nazwaRoweru" className="form-label">Nazwa roweru</label>
+                    <input 
+                        type="text" 
+                        id="nazwaRoweru" 
+                        name="name" /* Changed from "nazwa" to "name" */
+                        className="form-control" 
+                        value={rower.name} 
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="form-field">
+                    <label htmlFor="modelRoweru" className="form-label">Model roweru</label>
+                    <input 
+                        type="text" 
+                        id="modelRoweru" 
+                        name="model" 
+                        value={rower.model}
+                        className="form-control" 
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="form-field">
+                    <label htmlFor="cenaRoweru" className="form-label">Cena roweru</label>
+                    <input 
+                        name="price" /* Changed from "cena" to "price" */
+                        type="number" 
+                        id="cenaRoweru" 
+                        className="form-control"
+                        value={rower.price}
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="form-field">
+                    <label htmlFor="kolorRoweru" className="form-label">Kolor roweru</label>
+                    <input 
+                        type="text" 
+                        id="kolorRoweru" 
+                        className="form-control"
+                        name="colour" /* Changed from "kolor" to "colour" */
+                        value={rower.colour}
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="form-field">
+                    <button type="submit" className="btn-solid theme-primary">Dodaj rower</button>
+                </div>
+            </form>
+        </div>
+    );
+}
+
+export default Form;
+
+rowery.json:
+
+[
+  {
+    "id":1, 
+    "name": "Scott sub sport 10", 
+    "price": 4750, 
+    "colour": "Zielony", 
+    "model": "Trekking"},
+  {
+    "id":2, 
+    "name": "Romet Voyager", 
+    "price": 1700, 
+    "colour" : "srebrny", 
+    "model":"Gravel"}
+      ]
+

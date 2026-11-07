@@ -1,0 +1,115 @@
+App:
+
+
+import "bootstrap/dist/css/bootstrap.min.css"
+import { useState } from "react"
+function App() {
+  const [students, setStudents] = useState([
+    ["Jan","Nowak","3+","2026-11-07","Matematyka"],
+    ["Jan","Nowak","1","2026-11-07","Informatyka"],
+    ["Jan","Nowak","6","2026-11-07","Biologia"]
+  ]) 
+
+const [subjects, setSubjects] = useState([
+  "Matematyka", "Informatyka", "Biologia", 
+])
+
+const [subject, setSubject] = useState("");
+const [name, setName]=useState("");
+const [lastName, setLastName] = useState("");
+const [grade, setGrade] = useState("");
+const [data, setData]=useState(""); //zmieniamy element w selekcie
+
+  function handleAddSubject(e) {
+    e.preventDefault() //zapobiega odświeżeniu strony
+    const nowyPrzedmiot = prompt("Podaj nazwę przedmiotu: ") //wyskakujące okienko z promptem
+    setSubjects(prev => [...prev, nowyPrzedmiot]) //rozprasza listę, dopisuje na końcu
+
+  }
+
+  function handleDelSubject(e){
+    e.preventDefault() //zapobiega odświeżeniu strony
+    setSubjects(prev => prev.filter((item) => item !== subject)) //rozprasza listę, nie usuwa oprócz zaznaczonego
+  }
+
+  function handleChangeSubject(e){
+    e.preventDefault()
+    const newName = prompt("Zmień nazwę przedmiotu (" + subject + ")")
+    subjects.forEach((item, index) => {
+      if (item === subject ){
+        const oldSubjects = [...subjects]
+        oldSubjects[index] = newName;
+        return setSubjects(oldSubjects)
+
+      }
+    })
+  }
+function handleForm(e){
+  e.preventDefault()
+  setStudents(prev => [...prev, [name,lastName, grade,data,subject]])
+}
+  return (
+    <>
+    <form className="row g-3">
+  <div className="md:col-6">
+    <label htmlFor="inputName" className="form-label">Imię</label>
+    <input type="text" className="form-control" id="inputName" onChange={(e) =>setName(e.target.value)}/>
+  </div>
+  <div className="md:col-6">
+    <label htmlFor="inputLastName" className="form-label">Nazwisko</label>
+    <input type="text" className="form-control" id="inputLastName" onChange={(e) =>setLastName(e.target.value)}/>
+  </div>
+  <div className="col-12">
+    <label htmlFor="data" className="form-label">Data</label>
+    <input type="date" className="form-control" id="data" onChange={(e) =>setData(e.target.value)}/>
+  </div>
+  <div className="col-12">
+    <label htmlFor="grade" className="form-label">Ocena</label>
+    <input type="text" className="form-control" id="grade" placeholder="Wpisz ocenę" onChange={(e) =>setGrade(e.target.value)}/>
+  </div>
+  <div className="md:col-6">
+    <label htmlFor="subject" className="form-label">Przedmiot</label>
+    <select id="subject" className="form-control" onChange={(e)=> setSubject(e.target.value)}>
+      <option value = ""></option>    
+      {subjects.map((item, index) =>(
+        <option key={index} value={item}>{item}</option>
+      ))}
+      </select>
+      <button className = "btn btn-secondary" onClick={handleAddSubject}>Dodaj przedmiot (+) </button>
+      <button className = "btn btn-danger" onClick={handleDelSubject}>Usuń przedmiot (-) </button>
+      <button className = "btn btn-warning" onClick={handleChangeSubject}>Zmień nazwę przedmiotu</button>
+
+
+  </div>
+  <div className="col-12">
+    <button type="submit" className="btn btn-success" onClick = {handleForm}>Dodaj ocenę</button>
+  </div>
+</form>
+
+    <table className="table ">
+      <thead>
+        <tr>
+          <th>L.p.</th>
+          <th>Nazwisko</th>
+          <th>Imię</th>
+          <th>Data</th>
+          <th>Ocena</th>
+        </tr>
+      </thead>
+      <tbody>
+        {students.map( (item,index) => (
+          <tr key = {index} >
+              <td>{index+1}</td>
+              <td>{item[1]}</td>
+              <td>{item[0]}</td>
+              <td>{item[3]}</td>
+              <td>{item[2]}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    </>
+  )
+}
+
+export default App

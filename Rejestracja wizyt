@@ -1,0 +1,149 @@
+App:
+
+import "bootstrap/dist/css/bootstrap.min.css"
+import { useState } from "react";
+
+function List({visits}) {
+  return(
+    <div className="row">
+                    <div className="col-8">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>Imię i nazwisko</th>
+                            <th>Data wizyty</th>
+                            <th>Godzina wizyty</th>
+                            <th>Rodzaj wizyty</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                      {visits.map((item,index)=> (
+                        <tr key={index}>
+                          <td>{item.fullName}</td>
+                          <td>{item.datevisit}</td>
+                          <td>{item.timevisit}</td>
+                          <td>{item.typevisit}</td>
+                        </tr>               
+                  
+                      ))}
+                      </tbody>
+                      </table>
+                    </div>
+                    
+                    </div>
+  )
+}
+
+function Form({onAddVisit}){
+  const [fullName, setFullName] = useState("");
+  const [datevisit, setDatevisit] = useState("");
+  const [timevisit, setTimevisit] = useState("");
+  const [typevisit, setTypevisit] = useState("");
+  
+  function handleSubmit(e){
+  e.preventDefault()
+  if (!fullName || !datevisit || !timevisit || !typevisit){
+    return alert("Uzupełnij formularz!");
+  }
+  onAddVisit({
+      id: Number(new Date()),
+      fullName: fullName,
+      datevisit: datevisit,
+      timevisit: timevisit,
+      typevisit: typevisit
+  });
+  setFullName("");
+    setDatevisit("");
+    setTimevisit("");
+    setTypevisit("");
+}
+
+return(
+  <form onSubmit ={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="fullName" className="form-label">Imię i nazwisko</label>
+              <input 
+                type="text" 
+                name="fullName" 
+                id="fullName" 
+                className="form-control"
+                placeholder="Imię i nazwisko"
+                value={fullName}
+                onChange={(e)=>setFullName(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="datevisit" className="form-label">Data wizyty</label>
+              <input 
+              type="date"
+              name="datevisit"
+              id="datevisit"
+              value={datevisit}
+              onChange={(e)=>setDatevisit(e.target.value)}
+              className="form-control"
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="timevisit" className="form-label">Data wizyty</label>
+              <input 
+              type="time"
+              name="timevisit"
+              id="timevisit"
+              value={timevisit}
+              onChange={(e)=>setTimevisit(e.target.value)}
+              className="form-control"
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="typevisit" className="form-label">Rodzaj wizyty</label>
+              <input
+                type="text"
+                name="typevisit"
+                id="typevisit"
+                value={typevisit}
+                onChange={(e)=>setTypevisit(e.target.value)}
+                className="form-control"
+              />
+              </div>
+              <div className="mb-3">
+                <button className="btn btn-success" type="submit">Dodaj wizytę</button>
+              
+                </div>
+                               
+          </form>
+);
+}
+
+function App() {
+  const [visits,setVisits] = useState([])//tablica obiektów 
+
+  function handleAddVisit(newVisit){
+      setVisits(prev => [...prev,newVisit])
+  }
+//[
+// {id: czas_rejestracji dokładny zczytany z kliknięcia dodaj,
+//fullName: "Jan Kowalski"
+//datevisit: "2027-01-30"
+//timevisit: "08:00"
+//typevisit: "Składanie ręki"
+//]
+
+// {
+  
+//}]);
+//console.log(visits);
+  
+
+  return (
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-6">
+          <Form onAddVisit={handleAddVisit}/>
+        </div>
+      </div>
+      <List visits={visits}/>
+    </div>
+  );
+}
+
+export default App

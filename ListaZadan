@@ -1,0 +1,151 @@
+App:
+
+import { useState } from 'react'
+
+function FormAddList({handleAdd}){
+  const [taskTitle, setTaskTitle]=useState("")
+  const [taskDescription,setTaskDescription] = useState("")
+  function handleAddTask(e){
+    e.preventDefault()
+    if (!taskTitle || !taskDescription){
+      return alert ("uzupełnij zadanie!")
+    }
+    handleAdd(taskTitle, taskDescription)
+    setTaskTitle("")
+    setTaskDescription("") 
+  }
+   return(
+      <div className="container shadow mb-4 mt-4">
+        <div className="row">
+          <div className="col-12">
+            <h2>Nowe zadanie</h2>
+            <form onSubmit={handleAddTask}>
+              <div className="mb-3">
+                <input 
+                  type="text"
+                  name="taskTitle"
+                  id="taskTitle"
+                  value={taskTitle}
+                  onChange={(e)=>setTaskTitle(e.target.value)}
+                  className="form-control"
+                />
+                </div>
+                <div className="mb-3">
+                  <input 
+                  type="text"
+                  name="taskDescription"
+                  
+                  id="taskDescription"
+                  value={taskDescription}
+                  onChange={(e)=>setTaskDescription(e.target.value)}
+                  className="form-control"
+                />
+                </div>
+                <div className="mb-3">
+                <button
+                  className="button secondary"
+                  type="submit"
+                  >
+              Dodaj zadanie
+            </button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
+}
+function ListTasks({tasks, handleRemoveTask, handleRemoveTaskTime, handleCompletedTask}){
+  return(
+    <div className="container">
+      <div className="row">
+        
+        {tasks.map((item,index) => (
+          <div 
+            
+            className={item.isCompletedTask? "col-12 mb-2 shadow opacity-25":"col-12 mb-2 shadow"}
+            key={index}>
+          <span className="fw-bold">Tytuł zadania</span>
+          {/*zadanie*/}
+          <span className="m-3">
+          {item.taskTitle}
+          </span>
+          <span className="fw-bold">Opis zadania</span>
+          {/*opis*/}
+          <span className="m-3">
+          {item.taskDescription}
+          </span>
+          <button className="btn btn-primary m-3" onClick={() =>handleCompletedTask(item.id)}>wykonane</button>
+          <button className="btn btn-danger m-3" onClick={() => handleRemoveTask(item.id)}>usuń</button>
+          <button className="btn btn-warning m-3" onClick={() =>handleRemoveTaskTime (item.id)}>usuń po 5 sek</button>
+        </div>
+
+        ))}
+        
+        
+
+      </div>
+
+    </div>
+
+  )
+}
+function App() {
+  const [tasks, setTasks]=useState([
+      {
+        id:1, 
+        taskTitle:"Zakupy",
+        taskDescription:"Lista zakupów:chleb, mleko, sól",
+        isCompletedTask: false
+      },
+      {
+        id:2, 
+        taskTitle:"Sprzątanie",
+        taskDescription:"Od razu",
+        isCompletedTask: true
+      }
+
+  ])
+  function handleAdd(taskTitle, taskDescription){
+    setTasks(prev => [...prev, {
+      id: Number(new Date()),
+      taskTitle: taskTitle,
+      taskDescription: taskDescription,
+      isCompletedTask: false
+    
+    }])
+  }
+  function handleRemoveTask(id){
+    setTasks(prev => prev.filter((item) =>item.id !== id))
+  }
+  function handleRemoveTaskTime(id){
+    setTimeout( ()=> {
+        setTasks(prev => prev.filter((item) =>item.id !== id))
+    },5000)
+  }
+  function handleCompletedTask(id){
+    setTasks(tasks.map((item) => {
+      return item.id===id? {...item, isCompletedTask: true} : {...item}
+    }))
+  }
+
+
+  return (
+    <>
+      <div className="container">
+        <div className="row">
+          <div className="col-8">
+            <FormAddList handleAdd={handleAdd}/>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12">
+            <ListTasks tasks={tasks} handleRemoveTask={handleRemoveTask} handleRemoveTaskTime={handleRemoveTaskTime} handleCompletedTask={handleCompletedTask}/>
+          </div>
+        </div>
+      </div>
+      
+    </>
+  )
+}
+export default App
